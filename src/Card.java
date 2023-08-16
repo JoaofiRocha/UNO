@@ -68,4 +68,25 @@ public class Card {
         return number;
     }
 
+    public void changeColor(String color) {
+
+        switch (color) {
+            case ("red") -> {
+                colorStr = "\u001B[31m Red ";
+                this.color = 0;
+            }
+            case ("blue") -> {
+                colorStr = "\u001B[34m Blue ";
+                this.color = 1;
+            }
+            case ("green") -> {
+                colorStr = "\u001B[32m Green ";
+                this.color = 2;
+            }
+            case ("yellow") -> {
+                colorStr = "\u001B[33m Yellow ";
+                this.color = 3;
+            }
+        }
+    }
 }
