@@ -21,7 +21,7 @@ public class Deck {
     }
 
     public void showDeck(){
-        System.out.println("Your cards:");
+        System.out.println("\u001B[0mYour cards:");
         System.out.print(" | ");
         for(int i = 0; i < numCards; i++){
             System.out.print(card[i].getCard());
@@ -30,5 +30,7 @@ public class Deck {
         System.out.println("");
     }
 
+    public void playCard(int i){
 
+    }
 }

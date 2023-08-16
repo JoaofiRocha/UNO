@@ -46,7 +46,7 @@ public class Card {
 
                 case (10) -> numberStr = "block";
                 case (11) -> numberStr = "rotate";
-                case (13) -> numberStr = "+2";
+                case (12) -> numberStr = "+2";
                 default -> numberStr = Integer.toString(number);
             }
         }
