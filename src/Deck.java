@@ -43,4 +43,13 @@ public class Deck {
 
         }
     }
+
+    public int getNumCards(){
+        return numCards;
+    }
+
+    public void buyCard(){
+        card[numCards] = new Card();
+        numCards++;
+    }
 }

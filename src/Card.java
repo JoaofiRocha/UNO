@@ -7,16 +7,16 @@ public class Card {
     private String numberStr = "";
 
     public Card() {
-        int typeSet = (int) (Math.random() * 31);
+        int typeSet = (int) (Math.random() * 32);
 
         //type 0 = color
         //type 1 = +4
         //type 2 = multicolor
         type = 0;
-        if (typeSet == 30) {
+        if (typeSet == 31) {
             type = 1;
             typeStr = "\u001B[36m+4";
-        } else if (typeSet == 29) {
+        } else if (typeSet == 30) {
             type = 2;
             typeStr = "\u001B[31mM\u001B[34mu\u001B[32ml\u001B[33mt\u001B[31mi\u001B[34mc\u001B[32mo\u001B[33ml\u001B[31mo\u001B[34mr";
         }
