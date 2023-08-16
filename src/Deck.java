@@ -48,8 +48,12 @@ public class Deck {
         return numCards;
     }
 
-    public void buyCard(){
-        card[numCards] = new Card();
-        numCards++;
+    public void buyCard(int i){
+        int j = 0;
+        while(j != i) {
+            card[numCards] = new Card();
+            numCards++;
+            j++;
+        }
     }
 }
