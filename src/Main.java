@@ -10,8 +10,18 @@ public class Main {
         System.out.println("Current card: " + table.getCard());
 
         player.showDeck();
-        System.out.println("Select position of the card you want to play: ");
-        int play = in.nextInt();
+        while (true) {
+            System.out.println("Select position of the card you want to play: ");
+            int play = in.nextInt();
+            if (table.getColor() == player.getCardColor(play) || table.getNumber() == player.getCardNumber(play)) {
+                table = player.card[play];
+                player.playCard(play);
+                break;
+            } else
+                System.out.println("Invalid Card!!!");
+        }
 
+        System.out.println("Current card: " + table.getCard());
+        player.showDeck();
     }
 }

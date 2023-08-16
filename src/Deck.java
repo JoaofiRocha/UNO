@@ -1,6 +1,6 @@
 public class Deck {
     Card[] card = new Card[35];
-    int numCards = 0;
+    private int numCards = 0;
     public Deck(){
         for(int i = 0; i < 5; i++){
             card[i] = new Card();
@@ -30,7 +30,17 @@ public class Deck {
         System.out.println("");
     }
 
-    public void playCard(int i){
+    public void playCard(int a){
+        boolean found = false;
+        numCards--;
+        for(int i = 0; i < numCards; i++){
+            if (a == i)
+                found = true;
+            if (found){
+                card[i] = card[i+1];
+                card[i+1] = null;
+            }
 
+        }
     }
 }
