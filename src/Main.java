@@ -19,50 +19,50 @@ public class Main {
         boolean game = true;
         while(game) {
             while (turn == 1) {
-            System.out.println("Current card: " + table.getCard());
-            System.out.println("\u001B[0mOpponent has " + bot.getNumCards() + " cards!");
-
-            player.showDeck();
-
-            //play or buy
-            System.out.println("Buy or select position of the card you want to play: ");
-            String playerInput = in.next().toLowerCase();
-
-            if (playerInput.equals("buy")) {
-                player.buyCard(1);
                 System.out.println("Current card: " + table.getCard());
+                System.out.println("\u001B[0mOpponent has " + bot.getNumCards() + " cards!");
+
                 player.showDeck();
-            }
 
-            //checks if card is valid
-            else {
-                int play = Integer.parseInt(playerInput);
-                if (play < player.getNumCards() && (player.getCardType(play) > 0 ||table.getColor() == player.getCardColor(play) || table.getNumber() == player.getCardNumber(play))) {
-                    table = player.card[play];
+                //play or buy
+                System.out.println("Buy or select position of the card you want to play: ");
+                String playerInput = in.next().toLowerCase();
 
-                    if(table.getNumber() == 10 || table.getNumber() == 11) {turn = 1;}
-                    else if(table.getNumber() == 12){
-                        bot.buyCard(2);
-                        turn = 0;
-                    }
-                    else {turn = 0;}
-
-                    if(table.getType() == 2){
-                        System.out.println("Chose color: ");
-                        MulticolorOrPlus4(table, in.next().toLowerCase());
-                    }
-                    else if(table.getType() == 1){
-                        System.out.println("Chose color: ");
-                        MulticolorOrPlus4(table, in.next().toLowerCase());
-                        bot.buyCard(4);
-                    }
-
-                    player.playCard(play);
-                    break;
-
+                if (playerInput.equals("buy")) {
+                    player.buyCard(1);
+                    System.out.println("Current card: " + table.getCard());
+                    player.showDeck();
                 }
-                else
-                    System.out.println("Invalid Card!!!");
+
+                //checks if card is valid
+                else {
+                    int play = Integer.parseInt(playerInput);
+                    if (play < player.getNumCards() && (player.getCardType(play) > 0 || table.getColor() == player.getCardColor(play) || table.getNumber() == player.getCardNumber(play))) {
+                        table = player.card[play];
+
+                        if (player.getCardNumber(play) == 10 || player.getCardNumber(play) == 11) {
+                            turn = 1;
+                        } else if (player.getCardNumber(play) == 12) {
+                            bot.buyCard(2);
+                            turn = 0;
+                        } else {
+                            turn = 0;
+                        }
+
+                        if (table.getType() == 2) {
+                            System.out.println("Chose color: ");
+                            MulticolorOrPlus4(table, in.next().toLowerCase());
+                        } else if (table.getType() == 1) {
+                            System.out.println("Chose color: ");
+                            MulticolorOrPlus4(table, in.next().toLowerCase());
+                            bot.buyCard(4);
+                        }
+
+                        player.playCard(play);
+                        break;
+
+                    } else
+                        System.out.println("Invalid Card!!!");
                 }
 
             }
@@ -71,10 +71,16 @@ public class Main {
 
             if (player.getNumCards() == 1)
                 System.out.println("UNO!!!");
+            if (bot.getNumCards() == 1)
+                System.out.println("BOT UNO!!!");
 
             else if (player.getNumCards() == 0) {
                 game = false;
                 System.out.println("YOU WON!!!");
+            }
+            else if (bot.getNumCards() == 0) {
+                game = false;
+                System.out.println("The BOT WON!!!");
             }
         }
     }
@@ -90,6 +96,9 @@ public class Main {
         int blue = 0;
         int green = 0;
         int yellow = 0;
+
+        if(turn == 1)
+            return;
 
         while (!played) {
             for (int i = 0; i < bot.getNumCards(); i++) {
