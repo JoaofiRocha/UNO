@@ -2,7 +2,7 @@ import java.util.Scanner;
 public class Main {
     static Card table;
     static int turn;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Scanner in = new Scanner(System.in);
 
         //generate playerDeck
@@ -19,7 +19,9 @@ public class Main {
         boolean game = true;
         while(game) {
             while (turn == 1) {
+                Clear();
                 System.out.println("Current card: " + table.getCard());
+                Thread.sleep(1000);
                 System.out.println("\u001B[0mOpponent has " + bot.getNumCards() + " cards!");
 
                 player.showDeck();
@@ -29,7 +31,7 @@ public class Main {
                 String playerInput = in.next().toLowerCase();
 
                 if (playerInput.equals("buy")) {
-                    player.buyCard(1);
+                    player.buyCard(1, 1);
                     System.out.println("Current card: " + table.getCard());
                     player.showDeck();
                 }
@@ -43,7 +45,7 @@ public class Main {
                         if (player.getCardNumber(play) == 10 || player.getCardNumber(play) == 11) {
                             turn = 1;
                         } else if (player.getCardNumber(play) == 12) {
-                            bot.buyCard(2);
+                            bot.buyCard(2, 0);
                             turn = 0;
                         } else {
                             turn = 0;
@@ -55,7 +57,7 @@ public class Main {
                         } else if (table.getType() == 1) {
                             System.out.println("Chose color: ");
                             MulticolorOrPlus4(table, in.next().toLowerCase());
-                            bot.buyCard(4);
+                            bot.buyCard(4, 0);
                         }
 
                         player.playCard(play);
@@ -90,7 +92,7 @@ public class Main {
     }
 
 
-    public static void BotPlay(Deck bot, Deck player){
+    public static void BotPlay(Deck bot, Deck player) throws InterruptedException {
         boolean played = false;
         int red = 0;
         int blue = 0;
@@ -131,23 +133,25 @@ public class Main {
                         int color = (int)(Math.random() * 2);
                         if (color == 0)
                             MulticolorOrPlus4(table, "red");
-                        if (color == 1)
+                        else if (color == 1)
                             MulticolorOrPlus4(table, "blue");
                     } else if (green == yellow) {
                         int color = (int)(Math.random() * 2);
                         if (color == 0)
                             MulticolorOrPlus4(table, "green");
-                        if (color == 1)
+                        else if (color == 1)
                             MulticolorOrPlus4(table, "yellow");
                     } else {
                         int color = (int)(Math.random() * 2);
                         if (color == 0)
                             MulticolorOrPlus4(table, "red");
-                        if (color == 1)
+                        else if (color == 1)
                             MulticolorOrPlus4(table, "green");
+                        else
+                            MulticolorOrPlus4(table, "blue");
                     }
                     if (bot.getCardType(i) == 1) {
-                        player.buyCard(4);
+                        player.buyCard(4,1);
                     }
                     bot.playCard(i);
                     played = true;
@@ -155,15 +159,19 @@ public class Main {
                 }
             }
             if (!played)
-                bot.buyCard(1);
+                bot.buyCard(1,turn);
         }
         if(table.getNumber() == 12) {
-            player.buyCard(2);
+            player.buyCard(2,1);
             turn = 1;
         }
         else if(table.getNumber() == 10 || table.getNumber() == 11)
             turn = 0;
         else
         turn = 1;
+    }
+
+    public static void Clear(){
+        System.out.printf("%n%n%n%n%n%n%n%n%n%n%n%n%n");
     }
 }

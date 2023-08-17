@@ -48,12 +48,17 @@ public class Deck {
         return numCards;
     }
 
-    public void buyCard(int i){
+    public void buyCard(int i, int turn)throws InterruptedException{
         int j = 0;
         while(j != i) {
             card[numCards] = new Card();
+            if(turn == 1) {
+                System.out.printf("%n Card bought: %s \u001B[0m%n", card[numCards].getCard() );
+                Thread.sleep(1200);
+            }
             numCards++;
             j++;
+
         }
     }
 }
