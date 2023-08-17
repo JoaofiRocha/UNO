@@ -78,11 +78,11 @@ public class Main {
 
             else if (player.getNumCards() == 0) {
                 game = false;
-                System.out.println("YOU WON!!!");
+                System.out.println("YOU ARE THE BEST!!!");
             }
             else if (bot.getNumCards() == 0) {
                 game = false;
-                System.out.println("The BOT WON!!!");
+                System.out.println("LOSER!!!");
             }
         }
     }
