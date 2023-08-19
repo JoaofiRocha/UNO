@@ -24,6 +24,7 @@ public class Deck {
         System.out.println("\u001B[0mYour cards:");
         System.out.print(" | ");
         for(int i = 0; i < numCards; i++){
+            System.out.printf("\u001B[37m%d ", i);
             System.out.print(card[i].getCard());
             System.out.print("\u001B[0m | ");
         }

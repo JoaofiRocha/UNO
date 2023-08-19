@@ -19,6 +19,7 @@ public class Main {
         boolean game = true;
         while(game) {
             while (turn == 1) {
+                //show table card and number of opponent cards
                 Clear();
                 System.out.println("Current card: " + table.getCard());
                 Thread.sleep(1000);
@@ -30,10 +31,9 @@ public class Main {
                 System.out.println("Buy or select position of the card you want to play: ");
                 String playerInput = in.next().toLowerCase();
 
+                //buys new card
                 if (playerInput.equals("buy")) {
                     player.buyCard(1, 1);
-                    System.out.println("Current card: " + table.getCard());
-                    player.showDeck();
                 }
 
                 //checks if card is valid
@@ -42,6 +42,7 @@ public class Main {
                     if (play < player.getNumCards() && (player.getCardType(play) > 0 || table.getColor() == player.getCardColor(play) || table.getNumber() == player.getCardNumber(play))) {
                         table = player.card[play];
 
+                        //checks special cards
                         if (player.getCardNumber(play) == 10 || player.getCardNumber(play) == 11) {
                             turn = 1;
                         } else if (player.getCardNumber(play) == 12) {
@@ -51,13 +52,18 @@ public class Main {
                             turn = 0;
                         }
 
-                        if (table.getType() == 2) {
-                            System.out.println("Chose color: ");
-                            MulticolorOrPlus4(table, in.next().toLowerCase());
-                        } else if (table.getType() == 1) {
-                            System.out.println("Chose color: ");
-                            MulticolorOrPlus4(table, in.next().toLowerCase());
-                            bot.buyCard(4, 0);
+                        //checks ultra special cards
+                        if (table.getType() == 2 || table.getType() == 1) {
+                            while (true) {
+                                System.out.println("Chose color: ");
+                                String colorPick = in.next().toLowerCase();
+                                if (colorPick.equals("red") || colorPick.equals("blue") || colorPick.equals("green") || colorPick.equals("yellow")) {
+                                    MulticolorOrPlus4(table, colorPick);
+                                    if(table.getType() == 1)
+                                        bot.buyCard(4, 0);
+                                    break;
+                                }
+                            }
                         }
 
                         player.playCard(play);
@@ -69,12 +75,18 @@ public class Main {
 
             }
 
+            //bot plays
             BotPlay(bot, player);
 
-            if (player.getNumCards() == 1)
+            //UNO and end game
+            if (player.getNumCards() == 1){
                 System.out.println("UNO!!!");
-            if (bot.getNumCards() == 1)
+            Thread.sleep(1000);
+            }
+            else if (bot.getNumCards() == 1){
                 System.out.println("BOT UNO!!!");
+            Thread.sleep(1000);
+            }
 
             else if (player.getNumCards() == 0) {
                 game = false;
@@ -99,13 +111,18 @@ public class Main {
         int green = 0;
         int yellow = 0;
 
+        //checks if it is the bot turn
         if(turn == 1)
             return;
 
         while (!played) {
+
+            //if it has a normal card it plays, else it counts how many of each color he has
             for (int i = 0; i < bot.getNumCards(); i++) {
                 if (bot.getCardNumber(i) == table.getNumber() || bot.getCardColor(i) == table.getColor()) {
                     table = bot.card[i];
+                    System.out.printf("%n%n\u001B[0mOpponentBot played %s \u001B[0m%n%n", table.getCard());
+                    Thread.sleep(1000);
                     bot.playCard(i);
                     played = true;
                     break;
@@ -118,9 +135,12 @@ public class Main {
                 else if (bot.getCardColor(i) == 3)
                     yellow++;
             }
+            //Ultra special cards, picks a color
             for (int i = 0; i < bot.getNumCards(); i++) {
                 if (bot.getCardType(i) > 0) {
                     table = bot.card[i];
+                    System.out.printf("%n%n\u001B[0mOpponentBot played %s \u001B[0m%n%n", table.getCard());
+                    Thread.sleep(1000);
                     if (red > blue && blue > green && green > yellow)
                         MulticolorOrPlus4(table, "red");
                     else if (red < blue && blue > green && green > yellow)
@@ -161,11 +181,12 @@ public class Main {
             if (!played)
                 bot.buyCard(1,turn);
         }
+        //special cards
         if(table.getNumber() == 12) {
             player.buyCard(2,1);
             turn = 1;
         }
-        else if(table.getNumber() == 10 || table.getNumber() == 11)
+        else if(table.getNumber() == 10 || table.getNumber() == 11 && table.getType() == 0)
             turn = 0;
         else
         turn = 1;
