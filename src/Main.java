@@ -110,6 +110,7 @@ public class Main {
         int blue = 0;
         int green = 0;
         int yellow = 0;
+        int bought = 0;
 
         //checks if it is the bot turn
         if(turn == 1)
@@ -139,8 +140,6 @@ public class Main {
             for (int i = 0; i < bot.getNumCards(); i++) {
                 if (bot.getCardType(i) > 0) {
                     table = bot.card[i];
-                    System.out.printf("%n%n\u001B[0mOpponentBot played %s \u001B[0m%n%n", table.getCard());
-                    Thread.sleep(1000);
                     if (red > blue && blue > green && green > yellow)
                         MulticolorOrPlus4(table, "red");
                     else if (red < blue && blue > green && green > yellow)
@@ -150,19 +149,19 @@ public class Main {
                     else if (yellow > blue && yellow > green && yellow > red)
                         MulticolorOrPlus4(table, "yellow");
                     else if (red == blue) {
-                        int color = (int)(Math.random() * 2);
+                        int color = (int) (Math.random() * 2);
                         if (color == 0)
                             MulticolorOrPlus4(table, "red");
                         else if (color == 1)
                             MulticolorOrPlus4(table, "blue");
                     } else if (green == yellow) {
-                        int color = (int)(Math.random() * 2);
+                        int color = (int) (Math.random() * 2);
                         if (color == 0)
                             MulticolorOrPlus4(table, "green");
                         else if (color == 1)
                             MulticolorOrPlus4(table, "yellow");
                     } else {
-                        int color = (int)(Math.random() * 2);
+                        int color = (int) (Math.random() * 2);
                         if (color == 0)
                             MulticolorOrPlus4(table, "red");
                         else if (color == 1)
@@ -170,16 +169,26 @@ public class Main {
                         else
                             MulticolorOrPlus4(table, "blue");
                     }
+                    if (bought != 0) {
+                        System.out.printf("%n%n%n%nOpponentBot Bought %d cards%n%n", bought);
+                        Thread.sleep(1000);
+                    }
+                    System.out.printf("%n%n\u001B[0mOpponentBot played %s \u001B[0m%n%n", table.getCard());
+                    Thread.sleep(1000);
                     if (bot.getCardType(i) == 1) {
-                        player.buyCard(4,1);
+                        player.buyCard(4, 1);
                     }
                     bot.playCard(i);
                     played = true;
                     break;
+
+                }
+                if (!played) {
+                    bot.buyCard(1, turn);
+                    bought++;
                 }
             }
-            if (!played)
-                bot.buyCard(1,turn);
+
         }
         //special cards
         if(table.getNumber() == 12) {
